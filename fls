@@ -995,15 +995,63 @@ för att skicka och ta emot crypterade meddelande:
 			 	
 			 	  
 			
-			
-			5.3 start!!!!!!
+
+		* Morris worm: uses number of attack steps one of them is buffer over flow. 
+
+			* Principle for function: 
+			- intrusion (intrång)
+			- Transfer of main program 
+			- setting down and establishing (cracking accounts, hiding, etc)
+			- Continued intrusoins
+
+			* In this type of worm an infected system trie sto attack a target system by sending the worm to it
+			after the system is infected there will be a grappling hook that is a small part code which requests the rest of attack codes 
+			from the target that have been infected. the infected system then sends other part of codes for different attacks such as rsh attack, 
+			finger attack, sendmail attac, ... these code being placed then in grappling hook in the target system. 
+
+			* intrusion: 4 well known attacks:
+			1) findning trust relations: 
+			2) guess/crack passwords
+			3) use debug facility in the sendmail mail handler
+			4) exploit bug in finger program (buffer overflow)
+
+			1) Finding trust relations: The host obtains host addresses to other systems to attack
+			by examining the files: 
+				+ the system tables: /etc/hosts.equiv
+				+ /.rhosts
+				+ user files like: .forward
+				+ dynaic routing, information produced by the netstat
+				+ randomly generated host addresses on local networks. 
+
+			The goal of the findig trust relation attack is to find systems to login without password. 
+			files named above contains names of machones that are likely permit unathenticated connections. 
+
+
+			2) Guess/crack passwords:  the main goal for moris worm was to crack the password file to obtain all passwords. 
+
+			3) Use debug facility in the senmail: by using trap door in the sendmail SMTP mail service. A bug 
+			in debbuging code allows the daemon to execute a command interpreter and download code across a mail connection. 
+
+			4) buffer overflow: explaned later. 
+
+
+		* Mirai worm: one way it attacks is using default passwords, it had a list of 62 username and passwords. 
+		This worm had also the ability to evolve(utveckla) itself i.e. it could delete binary, obfuscate proccess id,
+		get updated with new passwords to it, closing of telnet port, killing of other variants, IP-based to domain based. 
+		it coild be used also for DDoS attack, Botnet, ... 
+		different Mirai worms are unique in many ways but still share much in common with the many threats that came before it. 
+
+
+
+		* Morris vs Mirai worm: 
+			+ Morris: A list of 432 build-in passwords
+			+ Mirai: 62 usernames and passwords
+			+ Both morris and mirai tried to hide itself by no binary left on the disk, and hiding process ID
+			Mirai had succeeded better because it killed of completing strains but mooris failed to stop infecting a system because of a bug. 
 		
 		
-		
-		
-		
-		
-		
+
+		* Stuxnet: 
 		
 		
 		
@@ -1018,8 +1066,4 @@ för att skicka och ta emot crypterade meddelande:
 				 
 				 
 				  
-				 			
-		
-	
-		
 		

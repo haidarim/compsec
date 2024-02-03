@@ -1059,7 +1059,7 @@ för att skicka och ta emot crypterade meddelande:
 
 
 
-		* Rowhammer: it hammer in a value into the memory
+		* Rowhammer: it hammer in a value into the memory (attack in hardware)
 			
 			* Sandboxing: in modern web browser we use sondboxing to prevent malware from installing itself on the system 
 			this will protects machine by adding an additional layer of protection to the browser so that e.g. javascript code that will be loaded in a webpage can't bring other code in itself i.e. malware. 
@@ -1081,11 +1081,60 @@ för att skicka och ta emot crypterade meddelande:
 
 			* Attack in form of rowhammer:  
 				- write enough time to a row will distrub a neighbouring row. 
-	
-				 
-				 
-				 
-				 
-				 row hammer 8:33
-				  
+				since the system needs a refresh rate the wnuogh write time must be between system refresh write (<64 ms)
+				The DRAM bank has a current activated row so attacker have to say the way to write
+				- attacker should write to different rows within same bank basically rowhammering. The
+				best is write adjacent to the one attacker want to change
+				- avoid cache
+			This attack effect pysical memory for example change addresses in memory and changing the page table to 
+			modify SUID-root executable such as /bin/ping, overwriting its entry point with attack shell code and run it
+			then shell code will run as root. 
+
+			This attack can also be used and be puted into java script to break down sandbox. 
+
+		* Spectre (version 1): 
+		this types of attack called meltdown and Spectre were no ordinary bug. At the time it was discovered, 
+		Meltdown could hack all intel x86 microprocessors and IBM power processors and some ARM-based processors. 
+		Spectre could hack even AMD (Advanced micro devies) as well. 
+
+		Versions of this attack: 
+		v1) Bound check by pass: ability to read outside of the bound of an array
+		v2) branch target injection
+		v3 Meltdown) rouge data cache load
+
+		this type of attack can take place in different places in system such as: 
+		- operating system
+		- side channel, e.g. cache contains the recently used data
+		- Return-Oriented programming: redirecting the control flow e.g. buffer overflow
+		- Speculative execution: cpu is fast since memory is slow 
+
+		speculative example: 
+		if (x< array1_size):
+			y = array2[array1[x]*256];
+		then get the value and index array2. 
+
+
+		* Typical order of magnitude: 
+		execute typical instruction--------------> 1/1,000,000,000 sec = 1 nanosec
+		fetch from L1 cache memory---------------> 0,5 nanosec
+		branch mispredication--------------------> 5 nanosec
+		fetch from L2 cache memory---------------> 7 nanosec
+		mutex lock/unlock------------------------> 25 nanosec
+		fetch from main memory-------------------> 100 nanosec
+		send 2kb over 1Gbps network--------------> 20,000 nanosec
+		read 1MB sequencially from memory--------> 250,000 nanosec
+		fetch from new disk location (seek)------> 8,000,000 nanosec
+		read 1MB sequentially from disk----------> 20,000,000 nanosec
 		
+
+#...................................Bufferoverflow..................................................................
+
+	
+
+
+
+
+
+
+
+

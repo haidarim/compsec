@@ -1,4 +1,4 @@
-
+ 
 
 
 
@@ -953,7 +953,7 @@ för att skicka och ta emot crypterade meddelande:
 		
 		
 		* I love you/Loveletter malware: The point of origin is Malina, Philipines, the worm code was 
-		written in visual basic script. 
+		written in visual basic script. there exist 82 diffrent types of Loveetter. 
 			
 			Duplication of loveletter virus: 
 			1) primary way of duplication: by sending itself as an attached .txt file to all 
@@ -1051,19 +1051,41 @@ för att skicka och ta emot crypterade meddelande:
 		
 		
 
-		* Stuxnet: 
-		
-		
-		
-		
-		
-		
-		
+		* Stuxnet: Advanced malware that targeted specifically PLC Siemenns SIMATIC step seven softwre. 
+		it was one of the first wild malware's that targeting PLCs. 
+
+		* Equation group: this group created some viruses. the virus could hi itself so that even cleaning disk the virus could hide itself and 
+		re-infect the system. 
+
+
+
+		* Rowhammer: it hammer in a value into the memory
+			
+			* Sandboxing: in modern web browser we use sondboxing to prevent malware from installing itself on the system 
+			this will protects machine by adding an additional layer of protection to the browser so that e.g. javascript code that will be loaded in a webpage can't bring other code in itself i.e. malware. 
+			With sandbox we will restrict the access of the page, the code, the process to just work with the limited part of the system 
+			and not be able to reach outside of this boundary that we created. 
+
+			* Computer memory: DRAM
+			Dynamic random access memory is type of memory that is typically used for data or program code. It 
+			stores each bit of data or program code in a storage cell. The storage cell consists of a capacitor and a transmitor
+			and it is typically organized in a rectangular configuration of storage cell. 
+
+			DRAM storage cell is dynamic, it needs to be refreshed or given a new electronic charge every few milliseconds (64 ms)
+			to compensate for harge leaks from the capacitor. 
+
+			Since DRAM cells getting smaller and smaller then interaction between them increases. So accessing one location
+			in the memory can distrub neighbouring location which can cause charge to leak into or out of neighbouring cells. 
+			With enough accesses, this can change a cell's value from 1 to 0 or vice versa. 
+
+
+			* Attack in form of rowhammer:  
+				- write enough time to a row will distrub a neighbouring row. 
 	
 				 
 				 
 				 
 				 
-				 
+				 row hammer 8:33
 				  
 		

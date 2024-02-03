@@ -1,0 +1,1025 @@
+
+
+
+
+https://data101.dtek.se/
+
+
+#..................................Cryptogrphy...............................
+	* attack: is an intentional activity conducted or initiated by a human, attempting to cause a breach in a 
+	system or to compromise a system
+	
+	* breach: is the resulting violation of the security policy of a system
+	
+	* intrusionor penetration) the term used to denote an attack and its corresponding breach.
+
+
+	* a vulnerability is a place in the system where it is open for attack (at least to some extent)
+
+	* a threat is something that can give undesired, negative consequences for the system
+	
+	* a countermeasure or protection or control is a technique that will protect the system against attacks
+
+
+
+	* transposition: by changing the message's alphabets position 
+	* substitution: by changing all lphabets inthe message by other symbols or alphabets
+	
+	
+	 * one time pad approach: 
+	 	- K: random string used as a key and it inly used only once.
+	 	- pi: (message): The Key has the same size as the message 
+	 
+	 
+	 * traditional symmetric model with secret key: Sender sends a crypted messsage that is encrypted by a 
+	 key. the receiver decrypt it by the same key that sender has used for encryption of the message. 
+	 NOTE: using this approach if the channel between sender and receiver is not secure then the cryptanalysis 
+	 can also read the key and even modify it therefor the channel should be confidential and authenticated. 
+	
+		* note that only the key should be secret. 
+		
+		diffrent ways that attcaker can break the message: 
+		1) cipher-only: the cryptanalysis only has encrypted text. this is the most difficult way.
+		
+		2) known-plaintext: the cryptanalysis has some pplaintext-ciphertext pairs.  
+		
+		3) Chosen-plaintext/chosen-ciphertext: the cryptoanalysis can make tests with selected plaintext 
+		and get the corresponding encryption. the easiest way for cryptanalysis.  
+		
+		Diffusion(spridning) and Conffision(förvirring): are two critical concepts in cryptograpgy:
+		- Diffusion: changing one symbol in plain text affects many symbols in the ciphertext. And 
+		changing one symbol in the key affects many symbols in the ciphertext. 
+		
+		- Conffusion: The cipher text must depend on the plaintext and the key in a complicated way so 
+		that the derivation of statical relation is hard to do. 
+		
+	
+	* Asymmetrical Systems: public-key-systems:
+	Each person has two keys. In priciple encryption is done by private key and decryption by public key. 
+	but this will not achive the confidentiality and therefor singing/signatures are used. 
+	by signature the document being encrypted and signed by the private key and when decryption the public key 
+	is used to check if it matches the signature. 
+	In many cases first the hash will be calculated and this hash will be signed then the hash and the 
+	original document will be sent. 
+	
+		* Diffie-Hellman system: 
+			One-way function: f(x) a^x (modulo p) // 
+			both sender and receiver agrees on b, 
+			sender chooses x1 and receiver chooses x2
+			sender calculates y1 = b^x1 and receiver calculates y2 = b^x2
+			
+			sender sends y1 to receiver and receiver sends y2 to sender // the atacker can listen!!!
+			
+			sender calculates y2^x1 = b^x1 x2
+			receiver calculates y1^x2 = b^x1 x2
+		
+			NOTE: this method is riskable of man in the middle attack!!!
+		
+		* RSA: most used.
+		
+		* PGP-GnuPG: application for encryption and signing of emails. It uses RSA and IDEA
+		
+		
+	*
+	
+#................................ LAB 1.............................
+	
+	* public key cryptography is asymmetric which means it uses 
+	two separate keys while symmetric encryption uses only one 
+	key.
+	
+	public key encryption is more secure from cryptanalysis that 
+	symmetric encryption. 
+	
+	- The security of any encryption scheme depends on:
+	1) the length of key 
+	2) the computational work involved in breaking a cipher. 
+	
+	* A public-key encryption scheme has six ingredients: 
+	1) Plaintext: readable message or data that is fed into algorithm as input 
+	2) Encryption algorithm: various transformations on the plaintext
+	3,4) public and private key: one is used for encryption and the other is used for decryption 
+	5) Cipher text: scrambled message produced as out put. It depends on the plaintext and the key. For a 
+	given 
+	message and two different keys will produce two different ciphertexts. 
+	
+	6) Decryption algorithm
+	
+	* Encryption with public key: 
+		- sender: 
+			i) sender puts the plaintext (X) into encryption algorithm, 
+			ii) the algorithm adds the recivier's public key (Pu)
+			iii) cipher text being transmited as Y = E(Pu X)
+	
+		- receiver: received ciphertext is fed into decryption algorithm with receiver's private key(Pr)
+		the plain text is now as X = D(Pr Y)
+	
+	* Encryption with private key:
+		- sender: 
+			i) sender puts the plaintext (X) into encryption algorithm, 
+			ii) the algorithm adds the sender's private key (Pr) 
+			iii) cipher text being transmited as Y = E(Pr X)
+			
+		- receiver: received ciphertext is fed into decryption algorithm with receiver's public key(Pu)
+		the plain text is now as X = D(Pu Y)
+		
+	
+	essential steps are the following: 
+	1. Each user generates a pair of keys to be used for the encryption and decryption of messages. 
+	
+	2. Each user places one of the two keys in a public register or other accessible file. This is the public 
+	key. The companion key is kept private. As Figure 2.7a suggests, each user maintains a collection of 
+	public keys obtained from others. 
+	
+	3. If Bob wishes to send a private message to Alice, Bob encrypts the message using Alice’s public key.
+	
+	4. When Alice receives the message, she decrypts it using her private key. No other recipient can decrypt 
+	the message because only Alice knows Alice’s private key.
+	
+	
+	* Man in the middle attack (MITM): 
+	
+	* Digital signature: 
+	Fro creating a digital signature, a secure hash function such as SHA-512 generate a hash value for the 
+	message then the hash code will be eencrypted with private key. 
+	
+		* Sender sends the signed message, the receiver receives a a message plus a signature. 
+		The receiver will:
+			1) calculate a hash value for the message 
+			2) decrypts the signature using the sender's public key
+			3) compares the calculated hsh value to the decrypted hash value 
+			
+			if the calculated hash value and decrypted hash value matchs, the sender knows that 
+			the message was signeed by the specific sender. 
+		Note that it's note safe yet and there is no protection of confidentiality because everyone can
+		decrypt the message by using the senders's public key. using this approch we can just garantee
+		that who is the owner of the message that have signed the message with its private key. 
+		
+	* Public-key certificates:
+	To solve the confidentiality problem with signing we can use public-key certificates.  A certificate 
+	consists of a public key plus a user ID of the key owner, with the whole block signed by a trusted third 
+	party. 
+	
+		The certificate also includes some information about the third party plus an indication of the 
+		period of validity of the certificcate. 
+		
+		Typically the third party is a certificate authority (CA) e.g. a goverment agency. 
+		
+		A user can present his/her public key to CA in a secure manner and obtain a signed certificate. 
+		The user can then publich the certificate. Anyone needing this user's public key can obtain 
+		the certificate and verify that it is valid.   
+	
+	
+		This approach is as follows:
+		sender: 
+		1) unsigned certificate contains user IDand user's public key. 
+		2) Generate a hash code for the unsigned certificate 
+		3) Encrypt hash code with CA's private keyto form the signature. 
+		4) now we a have a signed cetificate. 
+		
+		receiver: 
+		1) decrypt signature with CA's public key to recover hash code. 
+		2) Recipient can verify signature by computing hash code values. 
+		
+		
+	* Public-key encryption can be used to protect the a symmetric key in general in two ways:
+	
+		1) using Deffie-Hellman key exchange: there is various of approaches to do this safily.
+		
+		2) Digital Envelopes: 
+			sender:
+			2.1) Generate a random symmetric key that will be used only once. 
+			2.2) Encrypt the message using symmetric encryption the one-time-key. 
+			2.3) Encrypt the one-time-key using public key encryption with the recipient's public key.
+			2.4) attach the encrypted one-time-key to the encrypted message
+			
+			recipient: after receiving the digital envelope: 
+			2.1) Decrypt the symmetric mkey using recipient's private key
+			2.2) decrypt the message using the random symmetric key
+			 
+			 
+			
+	
+........................................jadi tutorial.................................
+
+
+	The sender can use public key of reciver and encrypt the message with that key. 
+	
+	* ssh uses asymmetric encryption as well. 
+	
+	* to start ssh service: 
+	$ sudo service ssh start
+	
+		first time trying ssh a server the system asks about the adreement on the connection then after 
+		writing yes the system adds host as the known hosts. 
+		
+		- to create a ssh key: 
+		$ ssh-keygen < -t the format of key by default empty means rsa>
+		
+			it will ask about some parameters like oassphrase which means if you want to enter the 
+			password each time using the key. 
+			
+			after geerating the key a fingerprint will also be shown as somthing like SHA256....
+		
+		- for running only one command on the target machine use: ex:
+		$ ssh <ip address> ls // do the ls operation and exits from the target after that
+		
+		- Every thing about ssh being stored in .ssh directory. contents are as follows:
+			
+			+ known_hosts: list of known hosts for the system. 
+			To remove the a hosts as a known host fro system:
+			$ ssh-keygen -R <ip_addres_of_that_host>
+			
+			+ id_rsa: the private key
+			
+			+ id_rsa.pub: the public key
+			
+			+ authorized_keys: list of authorized keys if you add your public key in this file when 
+			ssh a host the password not be asked again. 
+			NOTE: this way is not recommended instead use: 
+			$ ssh-copy-id <ip address of the host> // this will do the same as above. 
+		
+			
+			
+		- To ssh to a server: $ ssh <ip address>
+		other arguments:
+			
+			$ ssh -v <ip address> // to see all ssh do while connecting a host
+			
+		- configuration file for ssh: /etc/ssh/sshd_config
+		
+		- ssh-agent:
+			uses as: $ ssh-agent /bin/bash
+				 $ ssh-add
+			
+			this will add all key to the agent, and the agent keeps all key in the memory then first 
+			time sshing it asks about password but after that it does not beceuase it has the password 
+			stored.
+			
+			Other usage of agnet is when having diffrent servers and there is a jump server. by using 
+			normal way of public key it would not work because the private key is only on the lokal 
+			machine and jump host cant make connectio to the target host. but using agent it will work 
+			because the agent will transform the keys on the lokal machine to jump server and jump 
+			server can make connection with the target server. 
+			
+		
+
+	- ssh tunnels: 
+	1) Loka tunnel: 
+	$ ssh -L <entry port on local machine xp>:<target machine to be connected Y>:<exit port of target yp> <ip of machine that will be used as tunnel> 
+			
+			-L indicates a lokal tunnel
+			
+			local host on port xp can see the target machine Y that runs on port yp
+			
+			if we have a jump server then we can use localport and target ip address and port of 
+			target server and the jump server ip address in ordering. 
+			
+	2) Remote/reverse tunnel: 
+	$ ssh -R <port for geust yp>:<adddress of local address X>:<local port xp> <address of machine that can see my local Y>
+	-R indicates remote
+	then the machine Y can see my local machine X that runs on port xp on its yp port
+	
+	
+	3) Dynnamic port forwarding: 
+	Socks proxy:
+	$ ssh -D <port of local machine> <ip of the target server> 
+	
+	
+	
+	Note: X11 is responsible for graphic in linux. 
+	
+	* ssh with graphic: to ssh and see the graphic of the target graphic use: 
+	$ ssh -X  <ip address>
+
+	
+	
+	
+	* PGP (Pretty Good Privecy)-GPG: encrypting data: GPG is for the GNU:
+			
+		- usage: 
+		+ generate/create keys
+		+ encrypt data
+		+ signing 
+		
+		if just gpg being entered then sysyem asks about message to be encrypted:
+		$ gpg
+		
+		- To list all keys:
+		$ gpg --list-keys
+		
+		- To generate a key: 
+		alt1)
+		$ gpg --full-generate-key
+		
+		alt2)
+		$ gpg --gen-key
+			
+			+ it asks a name for owner, it should be atleast 5 charachters.
+			+ Email address <email@server.domain>
+			+ passphrase: a password for the key
+		
+		- To share the public key 
+			alt1) in binary format: 
+			$ gpg --export <key owner name> > <filenameToStoreTheKey.pub.key>
+		
+			alt2) in ascii format: 
+			$ gpg --export -a <key owner name> > <filenameToStoreTheKey.pub.key>
+			
+		
+			
+		- To encrypt data to send to receiver we have to first import the receiver's public key into gpg tool set. 
+		to do this import:
+		$ gpg --import <fileThatContainTheReceiver'sPublicKey>
+		
+		- To encrypt the file/message:
+			alt1) to binary format encryption 
+			$ gpg --out <EncryptedFileNameAsOutput> --recipient <receiver'name> --encrypt <fileNameToBeEncrypted>
+		
+			alt2) 
+			$ gpg --out <EncryptedFileNameAsOutput> -a --recipient <receiver'name> --encrypt <fileNameToBeEncrypted>
+		
+		
+		 
+		- To decrypt the encrypted file: 
+		$ gpg --out <fileNameToStoreDecryptedFile> --decrypt <encryptedFile> 
+		it can ask passphrase which was used for user when creating the key.
+		
+		
+		- Signing: 
+		since the data is encrypted by private key then the data should only be decrypted by public key therefor signing is important otherwise the 
+		message can be opnned or modified by others. 
+			
+			+ To sign:
+			alt1) bianry 
+			$ gpg --output <theFileNameToStoreSignedMessage> --sign <FileNameToSign>
+			
+			alt2) Ascii 
+			$ gpg --output <theFileNameToStoreSignedMessage> -a --sign <FileNameToSign>
+			
+			alt2) to keep message separate from signature:
+			$ gpg --output <theFileNameToStoreSignedMessage> --clearsign <FileNameToSign>
+			
+			+ To check the signature:
+			$ gpg --verify <signedFile>
+			
+			NOTE: in git we can sign with: $ git -S
+			
+			+ To oppen the signed file in unsigned format:
+			$ gpg --output <fileTostore> --verify <signedFile>
+
+
+			+ To revoke the key: 
+			$ gpg --output <theKeyFile> --gen-revoke ownerName ownerMail
+			
+			
+			+ gpg-agent: like ssh-agent thats keeps keys and password in memory.
+			
+			
+			
+			
+#...............................GNU privacy handbook...............................................
+
+	* Generate a new keypari: 
+	$gpg --gen-key
+	
+	* Generating a revocation certificate
+	gpg --output revoke.asc --gen-revoke mykey
+	
+	* to encrypt and sign:
+	$ gpg --output ... --encrypt ... --sign ... --recipient ... filename 
+	
+	*to view and edit: 
+	$ gpg --edit-key <mail/userID>
+	
+		COMMAND> 
+		toggle: switches between public and private components of key 
+		
+		check: the signature of the given user can be checked by this command
+		
+		adduid/deluid: to add/delete userID
+		
+		addkey/delkey: to add/delete a sub key
+		
+		revkey: to revoke key
+		
+		revsig: to revoke signature
+		
+		trust: user to verify other keys on your public keyring
+		
+		help: for info about all commands and descriptions
+		
+		
+	
+	* to validate the imported key:
+	$ gpg --edit-key <email/userId of the imported key>
+		
+		1)
+		command> fpr 
+		will show the fingerprint of the owner
+		
+		2)
+		command> sign
+		to sign the key
+		
+		
+	* Distributing keys: 
+	to distibute public key saflly public key servers are used to collect and distribute public keys. 
+	A received public key in server is either added to the server's database or merged with existing key if 
+	already present.
+	
+		+ when a request comes to the server, the server consults its database and returns the requested 
+		public key if found.
+		
+		+ When a sender signs the recipient's key then the sender sends the signed key to the server. 
+		the key server adds sender's signature to its copy of recipient's key. 
+		
+		
+		+ To send one or more key to a server: --send-key
+		+ The key server to which send the keys is specified by: --keyserver
+		
+		+ general form:
+		$ gpg -keyserver <serverName.pgp.com> --recv-key/--send-key <0xspecifiedKey>
+	
+	
+	
+#.................................Covert channel........................
+
+	* A covert channel (hemlig kanal) is a channel that leaks information from protected area it can be modul/ 
+	program to an unprotected area. It is also known as lekage path.
+	
+		+ A most importance characterization of covert channel is bandwidth wich counts in bits/second
+		
+		+ covert channel can make use of almost any means for the information transfer. 
+		(sv: hemlig kanal kan använda nästan alla medel för informationsöverföring)
+		
+		+ A typical environment is a highly sentensive system. 
+		
+		# There are two types of covert channel:  storage and timing channels;
+			+ storage channels: for example if one process writes to an object and process2 reads it
+			The Spy' program (mallicius program) can get informations about:
+				- object attributes: lenght, format, date, ...
+				- object existence
+				- shared resourses
+			
+			+ Timing channels: for example process1 creates some "effect" and process2 measure time
+			
+			
+	* Hiding Basic: 
+	
+	# steganography ("hidden writing"): means hidden writing as does cryptography but the idea this approach 
+	is that hide even the existence of the message that is secret. This approach embeds a secret message in 
+	some carrier, such as an open message
+	
+		some methods is:
+		-hiding text in a picture
+		-hiding picture in other picture ....
+		
+	#  Watermarking: means embedding a message into a cover message, normally to discourage theft of the 
+	intellectual property rights. 
+	(sv: innebär att bädda in ett meddelande i ett omslagsmeddelande, normalt för att motverka stöld av 
+	immateriella rättigheter.)
+	
+		example: media watermarking: 
+		- cover: digital image
+		- secret: copyright notice
+		
+		
+		
+	
+	* Data remanence & Side-channel Attcks: 
+	
+	# Data remanence: is "residual iinformation remaining on storage media after clearing" or 
+	"the ability of computer memory to retain previously stored information beyond its intended lifetime".
+	
+		+ Floppy disks/magstripe cards: write heads are not perfectly aligned on different systems, with
+		specialized tools one can recover data. 
+		
+		+ Hysteresis property of ferromagnetic media: weak form of data can remain even when owerwritten. 
+		
+		+ CMOS-flip-flop curcuits: Data can be retained for minutes at low temprature. 
+		
+		+ File/OS/Database system: When a file being deleted it is only marked as deleted even though
+		all information is still there. 
+		
+	# side-channel attack: is any attack based on information gained from physical implementation of an 
+	embedded system, for example a cryptosystem. based on information that can be gained from the device. 
+	
+		+ It normally requires physical access to the hardware. 
+		
+		+ Different types of side channel attacks: 
+		- timing attack: attack based on measuring how much time varios computation take to perform.
+		- power monitoring attack: attack based on observing the varying power consumption by the hardware 
+		during compution. 
+		
+		- Electromagnetic attacks: based on observing electromagnetic emanation, cp. sv: Röjande 
+		strålning.
+		
+		- Acoustic cryptanalysis: attackcs which exploitthe sound produce durring a compution. 
+		- Differential fault analysis: in which secrets are discovered by introducing faults in 
+		computation. 
+		
+		
+#......................................Lab1 outcomes..............................
+
+för att skicka och ta emot crypterade meddelande:
+	1) lägg till mottagares pub key och signera det. 
+	2) mottagaren ska göra samma sak.
+	3) skicka tillbaks mottagares crypterade och signerade pub key och ta emot din encrypterade och signerade pub key. 
+	4) både sidor nu lägger till sina mottgade pub key 
+		
+	
+
+
+#.................................Building an authentication system............................................
+	
+	Passwords: 
+		man ska ha restriktioner att hur password ska va t.ex. minst 8 karakter minst en av de sifrra , 	
+		minst en av de Stor bokstav och minst en små bokstav. 
+		
+		* i linux finns det /etc/passwd-filen används för att lagra grundläggande information om användare 
+		på ett Linux-system. När en användare loggar in eller när systemet behöver information om en 
+		specifik användare, tittar det på denna fil för att hämta relevant information. Här är några sätt 
+		på vilka /etc/passwd används: 
+			
+			+ Authentication vid inlogning. 
+			+ användarsinformation: saker som hemkatalog, ...
+			+ rättigheter och behörigheter
+			+ processer och filer: när en användare startar en process, används användarens UID
+			och GID för att koppla den processen till rätt ägare. 
+			
+			+ System adminstration: Adminstratörer kan använda denna fil för att visa och hantera 
+			användarkonto, tilldela eller ändra lösenord och liknande uppgifter. 
+	
+			
+			# för varje user finns det:
+			username:password:UID:GID:GECOS:home_directory:shell
+			
+			- username: används när user logger in mellan 1 till 32 längd. 
+			- password: en x character indikiterar att encrypterade password är sparad i /etc/shadow 
+			file
+			
+			-user ID (UID): uid 0 är reserverad för root, uid:er 1-99 är reseverad för andra 
+			fördefinierade konto. uid:er 100-99 är reserverade av system för administritiva och system
+			/accounts group. 
+			
+			- group ID (GIU): den primiära group id är sparad i /etc/group file. 
+			
+			- GECOS: General Electric Comprehensive Operating System, denna ält används för att
+			lagra informationer såsom fullständigt namn, tel, kortnummer, ..
+			de separeras med ","
+			
+			- home directory: den absoluta path till directory:n user kommer hamna efter inlogningen. 
+			om detta directory inte finns då user directory visas som "/"
+			
+			- Command/shell: den absoluta path of en command eller shell (/bin/shell) typpically it is 
+			a shel but not neccesary. 
+			
+			
+			
+		Storting passwords:
+		
+		1) in clear text som shadow filen i linux
+		
+		2) encrypt the password:
+					
+			+ Man ska inte använda seret algoritm detta leder till säkerhet genom osäkerhet.
+			+ istället man ska använda en bra och open algoritm och hålla något mindre hemligt.   
+			
+			
+			problem: 
+			- Man kan inte använda en normal encryption algoritm, t.ex det är ingen bra ide att 
+			encryptera med key sparad på disk eftersom om key bli stulen då password är det också
+			kallas för chicken and ägg problem. 
+			
+			# One-way function: detta sätt är användbar för encryptering av password. det funkar som 
+			hash men man kan räkna bara på en väg och kan aldrig gå tillbaka. så man kan aldrig få 
+			orginallet. 
+			
+				## defaul är det MD5-crypt, bycrypt, sha256-crypt, sha512-crypt och 
+				den traditionella/historiska DES (DES tillåter bara 8-byte passwords). 
+				nya alternative: Argon2 (senare pratas om)
+				
+				OBS: MD5 är svagt så är inte rekommenderat. 
+				
+				* i one-way function man sparar hashet av lösenord istället själva lösenord i
+				 plain text. När user loggar in i system då funktionen tar det input som skrivs av 
+				 user, detta input blir hashat på samma sätt som man har hashat det orginala 
+				 password när user skapade det, sen man jämför hashet om det är samma värde då 
+				 user kan logga in. 
+				 
+				 * problems with one-way fuunction: 
+				 - om man har lösenorden sparade i en fil för t.ex. för olika user då user kan se 
+				 hashet av andra user och om två user har samma lösenord kommer de ha samma hash
+				 
+				 - detta sätt är svag för dictionary då man kan prova hashet med sictionary och 
+				 gissa till sig till passwordet. 
+				 Detta sätt av attck kan göras med en RAINBOW table. 
+				 
+				
+				* To solve the problem with one-way function: Adding salt
+				
+				
+				* To make offline dictionary attack harder: 
+					+ make the check as slow as possible: we want to make the actual hashing 
+					as slow as possible. for real users, they will only wait once for this 
+					hash to take place, for attacker many times. 
+					
+					+ adding some sanity check on password. if user enters weak password do 
+					not accept it until user enters better password. 
+				 
+				 	
+
+	
+	UNIX Security: Security in linux is focused most in three area: 
+	1) Memory protection for processes: Processes have own virtual address space, and communication
+	with hardware is done through the operating system .
+	
+	2) File are protected between users. "everything is a file" concepr implies that same mechanisms apply for 
+	all bjects. 
+	
+	3) Maintenance is carried out by a "realiable" system adminstrator, also known as root or super user. 
+	
+	to switch user:
+	$ su // then enter username and password 
+	
+	
+	
+	* File protection
+	to se the files protection information: 
+	$ ls -l 
+	rw-r--r- numberOfFileName owner group fileSize modificationDate nameOfFile
+	
+		# classes and permissions: 
+		9 characters grouped in 3 classes and 3 kinds of permissions: 
+		
+		classes: 
+			- owner
+			- Group
+			- other
+		
+		persmitions: 
+		 	- r = class has read acces to file
+		 	- w = class has write access to file
+		 	- x = class has execute access to file
+		 
+		 ex: -rwx r-- --- user group file.txt
+		 user has rwx access 
+		 group can only read the file
+		 others have no access 
+		 
+		 * change the acess for file: using chmod command 
+		 this command has two different modes either usin:
+		 
+		 1) octal file permissions: four octal number is used to set permissions:
+		 	
+		 	0744
+		 	0: SUID/SGID
+		 	7: 111: rwx: owner
+		 	4: 100: group
+		 	4: 100: other
+		 	
+		 2) textural manner: using '+', '=' and '-' for addin r,w,x e.g. +x
+		 	
+		 	gerneral: class+ or- or '=' permission
+		 	- to write perissions for group: g+w
+		 	- to remove read permission for other: o-r
+		 	- to set read access for user: u=r
+		 	
+		 
+		* SUID program: setting temporary permissions
+		SUID program is a program for wich the"s" bit is set. The s bit indicates that operating system 
+		lets user to perform the desired operation with the priviliges of the owner of the object. When
+		execution finished, user assume ordinary priviliges. 
+		
+			to see which programs are SUID on the system:
+			$ find / -perm -4000 -print
+			
+			* Changing the s flag: there are two main methods:
+			 1) chmod 4755 file.txt
+			 2) chmod u+s file.txt
+			 
+			 then running ls -la givew for example rws-r-x r-x
+			 
+		* setuid() function call can also be used in  c kod to change the user id and give more 
+		permissions.
+		
+		
+		
+	
+	* Authontorization, Access control and mobile malware: 
+	
+		* Authontication: is a process to verifying a user's identity. 
+		* Message authontication is another conceps that is not eqvivalent to authentication. 
+		Message authontication is about chaeck of message authenticity (sv: äkthet) and source. 
+		
+		* In OS each user has one identifier that is username and one authenticator which is password. 
+		
+		* basic of access control and user accountability  has two step:
+		1) identification: specify identifier
+		2) verification: bind entuty and identifier. 
+		
+		
+		* Authentication procesure: consists of 4 stages: 
+		1) identification of the user 
+		2) provision of some kind of authentication information which sould be secret 
+		3) transmission of the authentication information to the system through a secret channel. 
+		4) validation of the authentication information with respect to some reference information 
+		Note: error and attacks can occur in all 4 sages!
+		
+		* Authentication information can be of 3 different generic types: 
+			- something user know like password, pin code, ..
+			- something user have like smartcard
+			- something user afre (do) like fingerprint 
+
+		* Transmission channel: is often the weakest link specially when long distance are involved.
+		The usual transmission threats and problems apply such as: 
+			-  eavesdropping 
+			- manipulation of routers, gateway. 
+			- replay attacks
+			
+		* Validation of authentication: the system must have some reference information in order to
+		validate the authenticaition information. 
+		
+		 	- An attack can be launched againsst the reference info e.g. read stored password, change 
+		 	the reference info. 
+		
+			- Protection of password reference :
+			a) store in a file with strong and limited access control
+			b) encryption
+			c) (a+b)
+			
+		
+		* Access control: is the prevention of unautheorized use of a resource. the resource can be:
+			- process
+			- object 
+			- access right e.g. write, execute, read, delete, create, search ,...
+			
+			* access control provided using an access control matrix:
+			list of subject in one dimension (rows)
+			Each entry specifies access right of the subject to that object
+			
+				- access control matrix is often sparse.  
+				
+		* Mobile malware: the y usually infect the system to stole informations. 
+			
+		
+		
+		
+#..................................Security in Operating system......................................
+
+	security concept in os includes> 
+		1) authentication, autorization, access control: protecting files and memory by reference model
+		2) Separation: Virtual memory, virtual machines
+		3) operating system kernel: TCB (Trusted computing base), secure boot, software, hardware
+		4) Hardware support: (TPM, Intel SGX, ARM TrustZone), (Address space layout randomization, 
+		execution prevention, No-execute-bit(NX))
+		
+		
+		Layer of a computer system: 
+		--------------------
+		|   Applications   |
+		--------------------
+		|     Services     |
+		--------------------
+		| Operating System |
+		--------------------
+		|    OS kernel     |
+		--------------------
+		|    Hardware      |
+		--------------------
+		
+	
+	* Separation: The most basis and important part of OS protection is separation 
+	Types of separation: 
+		- physical separation: physical objects such as CPU's, printers, etc. 
+		- Temporal: execution at different time, one process has control of the machine but only durring 
+		a certain time interval.
+		
+		- Logical separation: domains, each iser gets the impression that he is alone in the system .
+		- Cryptographic: hiding data, so that other users cannot understand them. 
+		
+	* Protected objects: in os there are many protect objects, in principle all objects in the os need 
+	protection, but in particular those that are sharable need absolutly protect such as: 
+		- files, memory, programs, procedures, data, IO devices
+		- Hardware such as: operating system mechanisms, bus control, interrupt control, status register. 
+		
+		
+	* Kernel protection: the kernel is the part of os that performs the lowest level functions. It has a part 
+	that is called security kernel which is responsible for the security mechanism of the entire os. 
+		
+		* Reference monitor (RM): is a part of the security kernel and some sort of policy that controls 
+		access to objects. T
+		he goal is:
+			- complete mediation: the reference monitor needs this and it means that the roles must be 
+			enforced on every access. 
+			
+			- The reference monitor needs to be isolated, so that attacker connot change logic, 
+			database.
+			
+			- RM should be able to be verified to prove the corectness. 
+			
+		
+		* TCB: is everything in the trusted os to enforce the security policy. It is the portion of a 
+		system that enforces a particular policy. The TCB is not usually a single part rather it is 
+		spreaded out in the system in the hardware, kernel , ...
+				 
+	
+	* Security policy VS Security model: 
+		- Security policy is the goals that we expect the system to enforce. 
+		- Security model is a representation of the security policy for the os. 
+		
+		- Formal security model is a mathematical description (formalisation) of the rules of the security 
+		policy. It can be used for formal proofs of security. 
+		
+		
+	* Development of a secure OS: can be made in six steps: 
+	1) analyze of the system. 
+	2) choose/define a security policy. 
+	3) choose/create a security model based on the policy. 
+	4) choose implementation method. 
+	5) make a (conceptual) design. 
+	6) verify the correctness of the design.
+	
+		
+	* Decoy systems: is the system used to confuse and lure the attacker, the fake goal system for the 
+	attacker.
+	
+	* Honeypot system: is a decoy system that lure the attacker. We can have a virtual machine to create a 
+	honeypot system which will lure the attacker  and honeypot will be infected by the potential malware, then 
+	we can use introspection to  amalyse the attack. 
+	The hineypot system looks like a real system (as much as possible) but it is a completley fake. 
+	This system can be mounted in the insternal or external network or in the DMZ
+	
+	The goals of honeypot system is: 
+		- collecting information of attacker activity. 
+		- diverting attackers from the real system. 
+		- encourage the attacker to stay long enough on the system for the adminstrator to response. 
+		
+		* different types if honeypots: 
+			+ production honeypots: easy to use. gathers limited information. used by companies, etc. 
+			+ research honypots: complex to deploy and maintain. gathers extensive information.
+			used by academia, military, goverments, etc. 
+			
+	
+	FRS-system: (fragmentation, Replication, Scattering): is a system to protect files against attacks:
+	a file being fragmanted to several fraagments then replicated and scattered to several repositoties then 
+	each user has just fragments of a file and not whole the file. MORE INFO IN OFFPRINT
+	
+	
+		
+#...................................Malware (Malicious code)......................................
+
+	* Malicious code: is any code added, changed or removed from a software in order to intentionally cause
+	harm or subvet the intended function of the system. 
+	Malicious code can be many things such as: viruses, worms, trojan horses, rabbits, etc. 
+	From a technical viewpoint malicious code is a normal code. 
+	
+	Previously malware was normally of one specific kind but nowadays it's multifunctional and complicated. 
+	Malware is targeting en-users through web-based attacks
+	
+	Nowadays Most viruses are non-destructive rather they try to  take control over computer for malicous
+	porpuses such as becoming a zombie and distribute spam. 
+	
+	All kind of malware tend to be called virus such as Bagle, Mydoom, Netsky, Sasser, Kargo and sober, 
+	Conficker. 
+	
+	 
+	
+	* Virus: 
+		- Traditional virus: this typeof virus attaches to existing program code, intervenes in normal 
+		execution, replicates and propagates. 
+		
+		- Document virus: higly formatted documents include commands (+data)
+		
+		- Stealth virus (and rootkits): hides the modifications it has made in the system , normally by 
+		monitoring system calls and forging the results of such calls. 
+		
+		- Polymorphic virus: avoids virus scanners by producting multiple variant of itself or encrypting 
+		itself.
+		
+		- Hoax virus: is not virus at all, it is a email with a bogus warning
+		- Rabbit (or bacteria greedy programs): a visus or a worm that replicates without bound, thus 
+		exhausting some computing resource. this type of virus deos not spread to other systems. 
+		
+		- worm: is a stand-alone program that replicates and spreads copies of itself via network. non-
+		trivial to make
+	
+		- trojan horse: is a normal program that contains some hidden functionality that is unwanted by 
+		the user.
+		
+		- Logic bomb: Malware that triggers on a condition and detonates. 
+		
+		- Time bomb: malware that triggers on a time condition and detonates.
+		
+		- Trap door (backdoor): is an undocumnted and unknown (to the user) entry point to the system. 
+		Normally inserted durring the system design phase, and can be put there for a usfull purpose. 
+		it can also be remained after system testing, maintenance nut left by mistake. 
+		
+		- Salami attack: Achiving some economic benefits but making a large number of insignitificant 
+		changes e.g. rounding errors. 
+		
+		
+		
+		* different ways traditional virus infected system: 
+			1) Virus Surrounding a program: 
+			virus code runs , then original program runs, when original program ends virus runs again. 
+		
+			2) virus integrated into a program: 
+			virus code is shared into diffrent places in the original code. 
+		
+			3) boot sector virus: the virus take the complete control of the system before the os was 
+			loaded.
+		
+			normal booting before infection: 
+			first boot sectore that includes bootstrap loader prepares for the system initialization
+		
+			infected booting: 
+			virus takes place in the boot sector and moves the bootstrap loader into another sector. 
+			så virus code runs first then bootstrap loader and then system initialization. 
+		
+		
+		* Phases of viral action: 
+		1) entry into system. 
+		2) dormancy (dvala)
+		3) propagation
+		4) triggering
+		5) action 
+		
+		
+		* Driver-by download: download of malware through exploition of a web browser, email client or
+		 operating system bug without any user intervention whatsoever.  
+		
+		
+		
+		* I love you/Loveletter malware: The point of origin is Malina, Philipines, the worm code was 
+		written in visual basic script. 
+			
+			Duplication of loveletter virus: 
+			1) primary way of duplication: by sending itself as an attached .txt file to all 
+			recipients in MS outlook book. It created a flag in the register to make 
+			sure that it will not be sent more than once to each recipient. each time os started up 
+			it checked if a new repicient exists if yes the .txt file was sent to the new added 
+			recipient as well. 
+		
+			2) Using IRC, sending phony .htm foles to users connecting to the same IRC channel as the 
+			interface computer. if the victim was a web server this code tried to download pages link 
+			to this infected files. 
+			
+			Why it happened: 
+				- Win98 and win 2k contains the component "windows scripting host" which
+				default allowed scripts. 
+				
+				-  Windows could be configured to hide file extention in the file browser so 
+				file.txt could be shown as file. 
+				
+				- people in general trusted people they know
+				
+				- The script runs with user rights in the system. 
+				
+				
+			* what does loveletter do: 
+			 	1) create files in the file system: system directory: MSkernel32.vbs; 
+			 	LoveLetter.txt.vbs
+			 	
+			 	2) Manipulates the windows registry: to garantee execution at wiindows start up. 
+			 	3) tries to download the file WIN-BUGFIX.exe: a password stealing trojan horse. 
+			 	4) reads the address book in MS outlook: in order to send itself to other 
+			 	recipients. 
+			 	
+			 	5) Overwrite script files: rename the to .vbs
+			 	6) Overwrites the IRC script files: to be able to send .htm copy of it self to 
+			 	people connecting to same chat group as infected user. 
+			 	
+			 	NOTE: source code in slides!
+			 	
+			 	  
+			
+			
+			5.3 start!!!!!!
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+				 
+				 
+				 
+				 
+				 
+				  
+				 			
+		
+	
+		
+		

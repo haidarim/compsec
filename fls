@@ -1128,8 +1128,71 @@ för att skicka och ta emot crypterade meddelande:
 		
 
 #...................................Bufferoverflow..................................................................
+	
+	-------------------------------------------   0Xbfffffff
+	|	Stack: contains env/ARG string/   |
+	|		pointer			  |
+	|-----------------------------------------|
+	|	heap: dynamic memory, malloc	  |
+	|-----------------------------------------|
+	|	.bss: variables not initialized	  |
+	|-----------------------------------------|
+	|	.data:	initialized variables	  |
+	|-----------------------------------------|
+	|	.text: contains the code and  	  |
+	|	instructions			  |
+	-------------------------------------------
+
+	* Bufferoverflow: when puting data into a variable/buffer that has size larger than the buffer. 
+	this can lead for examlṕle overwritting the memory so that the data in memory going lost.  
+	For examole attacker using bufferoverflow overwrrite the return address for a program and jump to the stack address to execute his code. 
 
 	
+	#the exploit starta!!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

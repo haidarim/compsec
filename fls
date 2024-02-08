@@ -1147,21 +1147,53 @@ för att skicka och ta emot crypterade meddelande:
 	this can lead for examlṕle overwritting the memory so that the data in memory going lost.  
 	For examole attacker using bufferoverflow overwrrite the return address for a program and jump to the stack address to execute his code. 
 
+	Expolit: 
+	- Attacker can change/overwrite the return addressin the stack så that program does not returns and attacker can play around with te stack 
+	- Attacker can also inject his code using buffer overflow and run its code. 
+	- Attacker can take control of the envaitonment i.e overwrite other locations. 
+
+		* the attacker needs a program in the buffer or environment, which is easy.
+		this code calls offten shellcode beacause the idea is that open a shell and run commands. 
+		typical injection vector looks like below:	
+			|NOP sled|shellcode|address of shellcode|
+
+			- shellcode address: the address of the meomory region that contains the shellcode. 
+			- shellcode: a sequence of machine instructions to be executed e.g. execve("/bin/sh") to run a shell command
+			- NOP sled which is optional: a sequence of do-nothing instructions (nop). It is used to ease the expliotion, attacker 
+			can jump anywhere inside, and will eventually reach the shellcode. 
+			NOTE: for prepending the NOP sled in 0x86:
+			perl -e 'print "\x90"' | ndisasm -b 32 - 00000000 90 nop
+
+			* algorithm to how do a attack using bud´ffer overflow:
+			- create the shellcode
+			- prepend the NOP sled
+			- add the address of the shellcode 
+
+			* in reality thing are more complicated: the attacker needs to use encoding and unpacking
+			The shellcode should be encoded andshell code should be unpacker to be runned. 
+			for example strcpy() (and most other other functions) will stop when it encounters the null buye. so if the shellcode contains a null byte
+			the attacker has a problem. Therefor the attacker have to encode the shellcode to remove the null bytes
+			and then generate them dynammically. 
+
+
 	
-	#the exploit starta!!!
+	* Countermeasures:three different system defences
+	- NX bit
+	- Canaries
+	- ASLR
+	
+		* Canaries: Compiler-level techniques
+		The goal in this mechanism is to make sure that we detect overflow of return address before we use the return address  
+			+ the functions' prologues insert a canary on the stack. 
+			+ the canary is a 32-bit value inserted between the return address and local variable. 
+		There is three types of canaries: 	
+			1) terminator
+			2) random
+			3) random xor
+		The epilogue checks if the canary has been alerted i.e it checks that the canary has not been alerted before using the return adddress
+		Drawback of this mechanism is that it requires recompliation. 
 
-
-
-
-
-
-
-
-
-
-
-
-
+		Basically 
 
 
 

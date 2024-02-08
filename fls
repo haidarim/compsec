@@ -1177,7 +1177,7 @@ för att skicka och ta emot crypterade meddelande:
 
 
 	
-	* Countermeasures:three different system defences
+	* Countermeasures:three different system defenses
 	- NX bit
 	- Canaries
 	- ASLR
@@ -1193,11 +1193,50 @@ för att skicka och ta emot crypterade meddelande:
 		The epilogue checks if the canary has been alerted i.e it checks that the canary has not been alerted before using the return adddress
 		Drawback of this mechanism is that it requires recompliation. 
 
-		Basically 
+		Basically we use cannaries to protect the stack. the canary will be placed between the local variables and frame pointer
+		so if there is a buffer overflow it will go through the canary and we will detect it. 
+		When attacker does buffer overflow the value of canary being changed, the attacker still can overwrite everything up to the return address 
+		but the buffer overflow will be detected. In this way we can stop the program when buffer overflow detected
+		so that the attacker beint not able to run his code. 
+
+		NOTE: even this mechanosm isnot safe tha attacker can pass the canary and run his own code. by jumping over the canary. 
+		so canary value will be unchanged and the buffer overflow will not be detected. 
 
 
+		* NX bit/DEP (Data Execution Prevention)/W xor X: system-level defense
+		The idea is to separate executable memory locations from writable ones. So a memory page will not be able to be both 
+		writable and executable at the same time. 
+
+		How to violate this mechanism? return into libc
+		for this porpuse (break this mechanism): 
+			- we can manipulate a code pointer
+			- the stack is writable
+			- we know the address of a suitable library function such as system()
+		using these functions the attacker can overwritte the return address of the the vulnerable functio. 
 
 
+			#Return-oriented programming (ROP chain) attack: 
+			- small snippets of code ending with a return 
+			- can be chained together. 
+			by using this small pieces of code that have return in a chain in right order we can execute our own code. 
+			this method can be used to break the canary mechanism 
+
+
+		* ASLR (address space layout randomisation): system-level defense
+		The idea is to randomly arrange the base addresses of the libraries, heap and stack, etc:
+			+ re-arrange the position of key data areas, randomly (stack, .data, .text, shared labraries, ...)
+			+ The attacker would not know the address of the shellcode. 
+			+ return into libc: the attacker can not predict the address of the library functions
+		this mechanism is implemented in linux kernel > 2.6.11, Windows , ... 
+
+			ASLR problems: 
+			- 32-bit implementations use few randomization bits. This is even worse for the Iot and embedded systems since they are smaller. 
+			- An attacker can still expliot non-randomised areas, or rely on other informations leaks. e.g. format bug.
+
+		starta sista två videoer i part 6 (buffer overflow)
+		
+
+		
 
 
 

@@ -1183,7 +1183,7 @@ för att skicka och ta emot crypterade meddelande:
 	- ASLR
 	
 		* Canaries: Compiler-level techniques
-		The goal in this mechanism is to make sure that we detect overflow of return address before we use the return address  
+		To protect the stack. The goal in this mechanism is to make sure that we detect overflow of return address before we use the return address  
 			+ the functions' prologues insert a canary on the stack. 
 			+ the canary is a 32-bit value inserted between the return address and local variable. 
 		There is three types of canaries: 	
@@ -1204,7 +1204,7 @@ för att skicka och ta emot crypterade meddelande:
 
 
 		* NX bit/DEP (Data Execution Prevention)/W xor X: system-level defense
-		The idea is to separate executable memory locations from writable ones. So a memory page will not be able to be both 
+		To pevent execution of the stack. The idea is to separate executable memory locations from writable ones. So a memory page will not be able to be both 
 		writable and executable at the same time. 
 
 		How to violate this mechanism? return into libc
@@ -1223,7 +1223,7 @@ för att skicka och ta emot crypterade meddelande:
 
 
 		* ASLR (address space layout randomisation): system-level defense
-		The idea is to randomly arrange the base addresses of the libraries, heap and stack, etc:
+		To randomize the stack and the start address of the code. The idea is to randomly arrange the base addresses of the libraries, heap and stack, etc:
 			+ re-arrange the position of key data areas, randomly (stack, .data, .text, shared labraries, ...)
 			+ The attacker would not know the address of the shellcode. 
 			+ return into libc: the attacker can not predict the address of the library functions
@@ -1232,9 +1232,14 @@ för att skicka och ta emot crypterade meddelande:
 			ASLR problems: 
 			- 32-bit implementations use few randomization bits. This is even worse for the Iot and embedded systems since they are smaller. 
 			- An attacker can still expliot non-randomised areas, or rely on other informations leaks. e.g. format bug.
+			- It will be problematic if all functions are still at the same relative offset from start address of the code. 
+			Then the attacker needs only a single code pointer. 
 
-		starta sista två videoer i part 6 (buffer overflow)
-		
+
+
+#....................................DOS (Denial of service attacks).......................................................
+
+	
 
 		
 

@@ -1239,11 +1239,20 @@ för att skicka och ta emot crypterade meddelande:
 
 #....................................DOS (Denial of service attacks).......................................................
 
-	
+	DoS (Denial of service): An action that prevents or impairs the authorixed use of the networks, system, or applications by exhausting 
+	or terminating resourses sush as CPU, memory, bandwidth and disk space. two types of DoS attack:
+		- overload/flood attcks: 
+			+ network bandwidth.
+			+ system resources. 
+			+ application resources
 
-		
+		- crash and kill: 
+			+ DoScan also be accoplished by killing the server. 
+			+ Find vulnerabillity in code ... 
 
+	* What in CIA can be targeted in DoS attack? 
 
+	starta part 2 ii
 
 
 

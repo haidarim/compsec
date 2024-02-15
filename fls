@@ -1252,28 +1252,147 @@ för att skicka och ta emot crypterade meddelande:
 
 	* What in CIA can be targeted in DoS attack? 
 
-	starta part 2 ii
+
+		* Overload/flooding: this type of attack needs a powerfull system
+			- from higher capacity network link to lower. 
+			- causing loss f traffic
+			- can use simple flooding ping (ping flood)
+				+ ICMP flood: uses ICMP packets, e.g echo request. typpically allowed
+				trough, some required.
+
+				+ UDP flood: uses UDP packets to some port.
+			
+				+ TCP sync flood: uses TCP SUNC (connection request) packets to overload the network.
+
+
+				+ SYN spoofing: To target the victims memory: This attack can be use as SYN spoofing as well where the clinet (attacker) 
+				sends lot of sync packet and the server has to keep track of half open connections.
+				In this way the server will store half open connections in memory.
+
+				The problem for the attacker in TCP Syn is that server sends also response packet so the attckers network band 
+				will also be overloaded. the other problem is that the attcaker will be identified.
+				this attack may be easily blocked. THe attacker needs spoof IP. 
+
+				# Attacker can use a spoofed client so attcker can spoof its ip. 
+				The attacker should use a spoofed client that not exists in this way the 
+				half open connection will not be removed on the server. 
+
+					In syn spoofing the attacker: 
+						uses: either random source addresses, or an overloaded server
+						to block return of the reset packets. 
+
+						has lower traffic volume. 
 
 
 
+			*problem for the attacker:  source of flood traffic easily identified. 
+				+ alternatives: SYNC spoofing targeting system resource/code/memory...
+			so the victim can find the attacker by e.g ip-address and do legal actions. 
+			this type of attack is also easy to block. and responsing back to origin is slow. 
+
+		* Crash/kill: with this attck there is no need of a powerful system
+			- Trigger bug in system (poison packet)
+			- calssical examples:
+				+ land attack: the attacker will create a packet with the source address same as the destination address. 
+				And source port same as the destination port. 
+
+				+ ping-of-death: this is basically a echo request, in this case tha attacker sends an oversized packet to the victim. 
 
 
 
+	* Distributed DoS (DDoS): where many system controled by the attcker to attack the victim. 
+	- conists of multiple systems. this will aloow higher traffic volumes to form a distributed
+	DoS attack. 
+
+	- often comprimised PC's/workatations. These PC's has been infected by zoombies with backdoorprograms, and forms a "botnet"
+	-EX: Trible Flood Network (TFN), TFN2K
+
+	This type of atack is more difficult to block since there are many systems that overload the system.
+
+	DDoS control hierarchy: the attacker speaks with handlers. handler zoombies are also infected 	
+		hosts that can control other hosts (agent zoombies). In this way the target only sees the agent zoombies.
+
+
+	Reflection and Amplification attacks: this concept includes that the attcaker gain their objective. 
+
+		- Reflection attack: the attacker will use normal behavior of the network. The attacker
+		tries to send packets with spoofed source address being that of target to a server ( motsvarande target till en server), i.e
+		the attacker sends packet with spoofed source as a device in the network so the device will be a victim.
+		The server will response and the response is directed at target (victim server or system). 
+		In this case if the attacker sends many requests to multiple servers, response can flood the target. 
+		The attacker can use various protocols e.g. UDP or TCP/SYN
+
+	 	- Amplification attack: In this type of attack the attacker will have number of zombies. 
+		The zombies will find some reflector intermidiaries that will then contect the target. 
+		The goal of this type of attack is that the attacker will scale up the factor.
+		
+		- Smurf attack: the classic one
+		in this attack the attacker will flood the network with excessive packets. 
+		the attacker will send ping to broadcast address of the network. 
+		The attacker will spoof the return to be the victim's address. In this way every one in the network will
+		respond the ping to the victim. 
+
+		- Fraggle attack: which sends large UDP to the broadcast address of the network. this will 
+		have same effect as Smurf attack. 
+	
+
+
+	* Defenses against DoS: 
+		1) attack prevention and preemption. 
+		2) attack detection and filtering.
+		3) attack source traceback and identification. 
+		4) attack reaction (after attack) to curtail effects of an attack. 
+
+	NOTE: High traffic volumes happens becasue of other reasons such as:
+	+ Legitimate result of high publicity 
+	+ A very popular site 
+
+		* Attack Prevention: 
+		- By blocking: block spoofed source addresses on routers as close to source as possible. still far too rarely implemented. 
+		- Rate: rate controls in upstream distribution nets. It can be done on specific packets e.g. some ICMP, some UDP, TCP/SYNC
+		- Modified TCP: use nodified TCP connection handling. Use SYN cookies when table full. 
+		or selective or random drop when table full. 
+
+	
+		* Responding to attack: for this porpuse we have to:
+		- Identify type of the attack: capture and analze packets. Design filters to block attack traffic upstrea,. 
+		or identify and correct system/application bug. 
+
+		- ISP traceback: have ISP trace packet flow back tosource. It may be difficult and time consuming. 
+		It can be necessary if legal action desired. 
+
+		- Contingency plan: implement contigency plan 
+		- Update incident response plan. 
 
 
 
+	* MIRAI botnet: First attacker need to do internet-wide scanning to find devices. After that MIRAI will 
+	try ti find insecure default passwords then if it was successful it was reported to the server
+	and later returned to it with a simple payload to infect hetrogeneous devices. 
+		
+		MIRAI cycle: 
+		1) Find victim which can be done by scanning e.g. Asynch, stateless, TCP SYN to 23 2323
+		And bruteforce login (62 credential, try 10 times). If it was successful report to the server. 
+
+		2) The victim device is infected by a loader program. The job of this program is to check what is the system environment. 
+		And download the system spec malware. 
+
+		3) The MIRIA tries to conceal and obfuscate itself, so it did not persist over reboots. 
+
+		4) it killed itself off if other version of it was infected the system. 
+
+		Types of MIRAI attack: 
+		- DDoS attack. 
+		- volumetric 
+		- TCP state exhaustion.
+		- application layer attacks.
+		- bandwidth amplification (built in)
 
 
+#....................................NEXT.............................................
 
-
-
-
-
-
-
-
-
-
+start
+		
 
 
 

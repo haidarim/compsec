@@ -703,8 +703,15 @@ för att skicka och ta emot crypterade meddelande:
 			 
 		* setuid() function call can also be used in  c kod to change the user id and give more 
 		permissions.
+
+		* The current euid is 0 before e.g. calling setuid(20757),
+                which means that the process has root privileges and can run the program with any user ID.
+		However, after calling setuid(20757), the process permanently drops its root privileges and sets its euid, 
+		ruid, and saved set-user-ID to 20757. This means that the process can no longer run the program with root privileges, 
+		unless the program itself has the setuid bit set and is owned by root. In other words, setuid(20757) does not prevent the process from running the program,
+		but it does prevent the process from running the program with root privileges
 		
-		
+		The setuid bit is indicated by an s in the file mode, as in -rwsr-xr-x. This means that when a user executes the file, the process will run with the euid of the file owner, regardless of the user’s own identity
 		
 	
 	* Authontorization, Access control and mobile malware: 

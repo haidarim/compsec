@@ -1396,11 +1396,14 @@ för att skicka och ta emot crypterade meddelande:
 		- bandwidth amplification (built in)
 
 
-#....................................NEXT.............................................
+#....................................Defensive programming.............................................
 
-start
-		
+	
+	Never trust user input!
 
+	Defensive programming/Secure programming:
+	- Must always validate assumptions, nothing is assumed
+	- needs an awareness 
 
 
 

@@ -1403,10 +1403,156 @@ för att skicka och ta emot crypterade meddelande:
 
 	Defensive programming/Secure programming:
 	- Must always validate assumptions, nothing is assumed
-	- needs an awareness 
+	- needs an awareness of consequenses of failures (understanding what can happen and what it can lead to)
+	- understanding the thechnologies used by attackers 
+
+	* Diffrent organisation have toke track of similar vulnerablites exploited over time (CERT)
+		- injection attacks (ex12.2)
 
 	
+	* Domians: 
+	1) Handling program input: buffer overflows, Injections attacks. 
+	2) writing safe program code
+	3) interacting with OS and other programs
+	4) handling program output 
+	
+	* Types of injection attck: 
+	- Code injection
+	- Control flow
+	- Dat ainjection
+	- Command Injection 
+	- ...
 
+
+	* History of Command injection: long time ago CGI had been used and programing in perl to fork a shell in web 
+
+		The user sends request about a resource to the server and server sent the resource to the user.  
+		In beginging of the web, servers used shell to prepare the resources requested by users, this was done though
+		CGI (command gateway interface). The web server could trogh the CGI fork a shell and run some code in the shell, it happend with same proviliges as web server. 
+		The communication was implemented by Perl. 
+		An attacker could attack the system by using characters meaning, characters have different meanings. 
+		Attacker could for example use code as input data or rather commands as input data. 
+
+		* Command injection mitigation technique by two methods:
+		1) Define what is known dangerous input. (this way is the difficult one, may miss some cases) 
+		2) define what is valid input. (it's easier to define valid inputs!)
+
+	* problems: 
+	- Definition of what is really dangerous is difficult
+	- different (multiple) encodings: e.g for web, space can be %20,/=%2, ;=%3B
+	- not only strings can be injected, also other types of data such as integer overflow. 
+
+	* the best way is to define valid inputs!
+
+	* Open Web Application Security Project (OWASP) is an organization focused on improving the security of application software. 
+	Some attcs listed byOWASP:
+		1) Injection: Injectio flaws, such as SQL, NOSQL, OS, and LDAP injection, occur when untrusted data is sent to an interpreter as part
+		of a command or query. The attacker's hostile data can trick the interpreter to executing unintended commands or accessing 
+		data without proper authorization. 
+			- SQL injection: Access or modify data in DB.
+			- SSL injection: Execute commands on server and access sentensive data. 
+			- LDAP Injection: Bypass authentiation
+			- ...
+
+
+		2) Cross-site Scripting: XSS flaws occur whenever an application takes untrusted data and sends it to a web browser without proper validation
+		or escaping. XSS allows attackers to execute scripts in the victim's browser which can hijack user sessions,
+		deface web sites, or redirect the user to malicoius sites. 
+
+
+
+
+#......................................Network Security.....................................................
+
+	The CIA concepts are in fokus in network security as well:
+
+	* Authentication: The attacker will spoof packets, there is a security mechanism called kerberos, whish works in authentication domain.
+	* Availability: attacker can attack against availibility e.g. denial of service attack. 
+
+	* Reasons that lead to insecure network: 
+		insecure medium: 
+		- insecure medium: almost impossible to secure the network itself, i.e. the communication links. 
+		- Always assume attackers can bug and modify all traffic.
+
+		Unknown communication path: 
+		- Several routers between two nodes. 
+		- Lack of control of the network. 
+
+		Unknown perimeter boundary:
+		- Several points of attacks, we can reduce them by firewall
+
+		Anonymity:
+		attacker can hide himself using e.g. TOR, ... 
+
+	Some networking attcks: 
+	- port scanning: is a general information-gathering activity. It is a way to find open ports in hosts that can be used for attackers.
+	there ay be diffrent vairaints such as Stealth scanning. This technique use in mirai to find open ports to infect and keep the communication. 
+
+	- spoofing: It means pretending to be the real owner of an address which is incorrect. It may also mean falsely providing
+	a service instead of the real service provider. There are several types of spoofing:
+		+ ARP (address Resolution Protocol) spoofing: ARP is used in LANs to map the host's ip address to the MAC address. 
+		The ARP spoofing or poisoning means sending faked ARP replies to a LAN. The ARP request packet is broadcast to
+		the network segment. Any one can answer. Giving a wrong answer can confuse the network devices, e.g. routers. 
+		This may result in that the communication will be directed to ann incorrect host. 
+		It may also result in that the correct host is unreachable, a DOS attack. 
+	
+		+ IP address spoofing: exploits the trust relationship between two hosts, the trusted host and the victim host: 
+		Attacker can send a packet to the victim host with a false source address(i.e. that of the trusted host).
+		The victim's replies will still go to the trusted host. Thus the attacker does not see them. 
+		In some way (DOS attack) attacker can disable the trusted host. The attacker then need also to find out the sequence numbers somehow, 
+		otherwise the spoofed packets will not be accepted by the victim. 
+	
+		+ DNS spoofing: means directing users to a false server. This can be accomplished in several ways:
+			- By making a fake maping betwen hostname and IP address at the vitim's web client. 
+			- By IP spoofing, so that the IP address request goes to a false DNS server. 
+			- Attacking the real DNS server and changing entries in its cache memory. 
+		
+		+ Web spoofing: fools the victim to think that he is cisiting a legitimate site, whereas he is really visiting the 
+		attackers's site. The attacker can do it by: 
+			- By providing a false link by compromising a comon web page. 
+			- by providing a false web address, that may be confused with the real one. e.g bank.com instead of bank.se
+		This may couse all communication to pass throug the attackers's server. 
+
+	- Man in the middle attack: is an attack in which the attacker (logically) places himself between the two hosts that are
+	communicating. Both parts think that they are communicating with one another but in fact both of them are communicating
+	with the attacker's server. This attack can be accomplished by many ways such as: 
+		+ Using web spoofing. 
+		+ By ARP poisoning using tools like Hunt.
+		+ By ICMP redirection of packets. 
+		+ By DNS poisoning
+	The attacker can also passively monitor the communication between the parties, e.g. to collect sentensive information (a passive attack!)
+
+
+	starta video nr2: firewalls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+	
 
 
 

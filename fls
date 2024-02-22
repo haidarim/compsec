@@ -1523,10 +1523,117 @@ för att skicka och ta emot crypterade meddelande:
 	The attacker can also passively monitor the communication between the parties, e.g. to collect sentensive information (a passive attack!)
 
 
-	starta video nr2: firewalls
+	Defense techniques: 
+
+		* Firewalls: A firewall is an access control device between two networks. 
+		it monitors all traffic (in both directions) and filter away (denies) unwanted traffic. 
+		In this way it protects against (some) attacks from outside. 
+
+		Firewalls' job: It determines wich inside service may be accessed from outside and 
+		which outsiders that are allowed to access to those inside services. 
+		It determines also which outside services may be accessed by the insiders. 
+
+		Capabilites: 
+		- defines a single choke point
+		- provides a location for monitoring security events. 
+		- convenient platform for some internet functions sush as NAT1, usage monitorng,
+		IPSEC VPN2s
+
+		Limitations: 
+		- cannaot protect agaisnt attacks bypassing firewall. 
+		- Does not protect against insides. 
+		- Does not protect against viruses. 
+		- Does not protects against data-driven attacks. 
+		- Open for availablity attacks. 
+		- Errors, weakness and deficient installation may impair functionality. 
+		- may not protect fully against internet threats
+		- improperly secure wireless LAN. 
+		- laptop, PDA, portable storage device infected outside then use inside. 
+
+		Firewalls basic functionality: A firewall implements an organization's security policy 
+		whith respect to the internet. It has a stance which describes the fundamental 
+		security philosophy of the organization. Type of stances can be as follows:
+			+ The default deny (discard) stance: everything is denied unless specifically permited. 
+			+ The default permit (forward) stance: everything is permitted unless specifically denied. 
+
+		# Firewall technique: 
+			Basic principles:                            Architectures
+			1) Packet filter ------------------------->   + Packet filtering router
+
+			2) Application-level- gateway (proxy) ---->   + Single-homed host
+
+			3) Circuit-level gateway ----------------->   + Dual-homed host
+
+			4) Stateful inspection ------------------->   + Demilitarized Zone (DMZ)
+			(dynamic filtering)
+
+			1) Packet Filter: using packet filtering router between the internal network
+			and internet:
+				- it allows or denies a packet based on address, direction, prot, protocol. 
+				- Does not understand the content of the packet. 
+				- Advanced variation: dynamic filtering/stateful inspection. 
+
+				For packet filtering we use Packet filter Rules. we can have rules set to define 
+				which packets are alowed and which shold be blocked. 
+
+			Host Based Firewalls: A software module used to secure an individual host. 
+			- Available in (or as an add-on for) may O/S.
+			- Often located in servers. 
+			- Adveantages:
+				+ taylored filter rules for specific host needs 
+				+ protection from both internal/external attacks
+				+ additional layer of protection to stand-alone firewall 
+
+			Demilitarized Zone (DMZ): Is the zone all servers/services that are more 
+			connected with outside world. so we seperate the internal network from this zone. the internal zone is the fully trusted. 
+			the DMZ in more trusted, and outside is not trusted. Web-and mail-servers
+			etc are placed in DMZ, this will provide in-depth defence. 
+			
+			
+			Distributed Firewalls: we can set up several firewalls in the network between 
+			each serveices. 
 
 
+		# Firewalls problems: 
+		- Must be installed and updated, which could be difficalt. 
+		- installation details may be important
+		- must be maintained. 
+		- Difficult to test. 
+		- may affects the performance of the internet connection
+		- may be seen as an hindrance by the users. 
 
+		Virtual private network (VPN): The firewall can also implement a virtual private network
+		which allow user to access the network anywhere arount the world. 
+
+
+		* Kerberos: It is a authentication system (client<----->server)
+		The orginal reqirements were: 
+			- secure
+			- reliable: services shuld be available when needed. 
+			- transparent (to user)
+			- scalable
+
+		The system is based on a secure Kerberos installation, where the account name and password are stored. 
+		Othe nodes in the network may be insecure. Password are stored in Kerberos (not locally). 
+		Passwords are never sent over the network. The authentication gives a basis for authorization. 
+		(authentication separated from authorization)
+
+		Kerberos Concepts: 
+			- ticket: a token used by the user, so that his identity can be securly tranferred 
+			to the server. It contains the necessary infromation needed for the user and server
+			to be able to communicate (e.g. crypto keys). One ticket for each service
+			is generated, often valid for hours. 
+
+			- Authenticator: a one-time token showing that the user has the permision to use a service 
+			(one ticket per session, short lifetime ~5 min, to prove user identity)
+
+			- session key: a temporary key for the communication between th euser ad the service. 
+			- Life time: the lifetime of a ticket. 
+			- Time stamp: the time when a ticket was created.
+			- Nonce: a random number, to prevent replay attacks. 
+
+
+		Kerberos vid3 2:29 continue!
 
 
 

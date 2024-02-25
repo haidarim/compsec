@@ -1633,14 +1633,46 @@ för att skicka och ta emot crypterade meddelande:
 			- Nonce: a random number, to prevent replay attacks. 
 
 
-		Kerberos vid3 2:29 continue!
+		The Kerberos authentication protocol: 
+		All authentication is done by one separate server called as (KAS) this server 
+		has passwords. 
+		The TGS server authorizes user, this is the ticket granting service. 
+		User will first contact the authentication server once per logon session. 
+		The Authentication server (KAS) gives back information to the user. 
+		User will then contact the TGS once per service session to ask pemission to use 
+		the server or services provided by user V. after this the user will be able to request services. 
+		
+		messages between user and servers: 
+		- 1) first message user to authentication server: the message consists of 
+		IDc1, the id of the user on computer c and IDtgs the id of tgs server and TS which is
+		timestamp1 when this message was created.  This packet or message is not encrypted. 
+
+		- 2) The message back to user from KAS to user: consists of Key2, Idtgs, Lifetime2, Tickettgs
+		This message is encrypted with a key derived from the user's password. Only user with correct password can encrypt. 
+		The Tickettgs field is a set of filed encrypted with a shared key between KAS and TGS. user connot change this. 
+		The Tickettgs has similir fields as the message: Key2 which is the key client and TGS use to 
+		communicate between themselve + ID of the client + ADc which is the network address of the client
+		+ IDtgs which is the id of the TGS + TS2 and Lifetime2. 
+		
+		- 3) message sent from user to TGS: consists if IDv, Tickettgs, Authenticator[c]
+		The ticket is just forwarded to the TGS and it is encrypted with a key shared between KAS and TGS. User cannot change it. 
+		The ticket consists of: Key, Idc, ADc, IDtgs, TS2, Lifetime2
+		IDv is the id of the service that user want to use. 
+		The Authenticator[c] encrypted with session key shared between client and TGS-found in ticket. 
+		The Authenticator[c] consists of: IDc, ADc,TS3
 
 
 
+		* Kerberos Vulnerablity: TOCTOU flaw (Time of check to time of use)
+		The attacker can jump out from th eprogram and the mechanism may not be ran. 
 
 
 
+#..........................Intrusion Detection (IDS).................................
 
+	
+	Intrusion Detection: 
+		
 
 
 

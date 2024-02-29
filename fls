@@ -1671,15 +1671,37 @@ för att skicka och ta emot crypterade meddelande:
 #..........................Intrusion Detection (IDS).................................
 
 	
-	Intrusion Detection: 
-		
+	Intrusion Detection: Think about burglar alarm when you hear intrusion detection (ID)
+	It observs signals from a system and alarms when it finds somthing strange or unormal.
+	This helps to system protection, but not protect the system, it can alarm e.g. an atack before it
+	infect the system so an protecting mechanism can be performed. It is a powerful complement to other security mechanisms. 
+
+	ID's are used for: 
+		- detect intrusions and intrusion attempts. 
+		- give alarms. 
+		- stop on-going attacks (possibly)
+		- trace attackers. 
+		- investigate and assess the damage. 
+		- gather information for recovery actions. 
+
+	----------------------------------
+	|	intrusion detection      |-----------> ALARM   
+	----------------------------------      
+	   ^	       ^             ^
+	   |	       |	     |
+	   |           |    ---------------
+	--------       |    |  |	  |	    ------
+	|THREAT|----------->|  |  SYSTEM  |-------->|USER|
+	--------            |  |	  |         ------
+			    ---------------
+			     |		
+			     |
+			boundary protection 
 
 
-
-
-
-
-
+	* How is detection accompished? Loging is the basis for ID-sensors for intrusion detection. 
+Video 2 Details ... 
+	
 
 
 

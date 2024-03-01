@@ -1700,15 +1700,101 @@ för att skicka och ta emot crypterade meddelande:
 
 
 	* How is detection accompished? Loging is the basis for ID-sensors for intrusion detection. 
-Video 2 Details ... 
+	some attacks might be seen in some part of the system but not at all in other parts. 
+	Things that do log:	
+		- network traffic to detect network attacks,
+		- Systems calls to detect programs that behave suspiciously. 
+		- User commands to detect masquerading. i.e. when an attacker is using another 
+		user's account. 
+		- Logins, in order to know who was active on the system when it was attacked. 
+
+		
+	* what should be detected? 
+	1) ordinary intrusions: 
+		+ "sniffing" of passwords
+		+ buffer overflow
+		+ availability attacks e.g. DOS are common and hard to protect  against. 
+
+	2) information gathering, i.e. "attacks" aiming at open ports and weaknesse. 
+
+
+	* Components in an intrusion detsction system: 
+	- Control segment: that controls logging and data reduction from target system. and also controls what sjould we analyze. 
+	- Reference data which is used to decide if we are under attack or not. 
+
+	* Intrusion Detection's categories:
+	+ Misusse detection is defualt permit, defines what is wrong and gives alarm for that.
+	+ anomaly detection is default deny, defines what is correct and give alarms for everything else. 
+
 	
+	* Detection problems: Classification
+		+ the detection is a traditional classification problem
+		+ Seperate intrusion events from normal events. 
+		+ however, there is an overlap. 
+
+	* Detection methods: 
+		+ Rule based
+		+ Pattern matching
+		+ expert systems
+		+ thresholds 
+		+ statistical analysis
+		+ bayesian networks 
+		+ neural networks 
+		+ markov models
+		+ ...
+
+	Other posibbilites: new detection methods 
+	- visualization: 
+		+ find pattern and anomolous behavior. 
+		+ use the qualitie of the human brain
+	- combining methods. 
+
+	
+	* Requirements on IDS Systems: 
+	- System response time (real-time behaviour)
+		+ e.g we need to keep up to the network speed, so the IDS system checks 
+		in rate of the network speed. 
+	- Fault tolerance (due to e.g. s/w, h/w, configuration, etc). what should be done
+	if the IDS crashes? 
+		+ In some cases the IDS is host-based so when the IDS crashes the whole system crashes. 
+		+ Other IDS can be (TCP/IP) network based, it can be good when the IDS crashes so the 
+		host will still working. 
+	- ease of integration, usability and maintainability. 
+	- portabiblity
+		+ Host-based vs (TCP/IP) network used. 
+	- Support for raferance data updates (misuse system) (cp visud programs)
+	- "excess" information (privacy aspects)
+	- the "cost" (cpu usage, memory, delays, ...)
+	- decide the format, i.e: hostbased or networkbased. 
+	- security of the IDS (protect the reference information)
+
+
+	* IDS systems problems: some practical problems
+	- False alarms: with IDS system we may get many alarms, 
+		+ There is a trade-off between converting all attacks and the number of false alarms. 
+		+ alarms investigation is resource demanding.
+		+ if detection is 99% correct and the number of intrusions is 0.01% in the 
+		analysed informstion: the question is how many false alarms will we have?
+	The IDS can send false alarm that can classify a normal event as an attck 
+	Or also classify an attack as a normal behaivoiur. 
+
+	- Adaptivity/Portability
+	- Scalablility 
+	- Lack of test mehtods
+	- privacy concerns. 
+
+
+	* Intrusion prevention systems (IPS) such as 
+	- reconfiguring a firewall
+	- distrupt TCP connection
+	- discontinue services. 
+	- stop system calls (in run time)
 
 
 
 
 
-
-
+#..................................Database Security and Privacy........................
 
 
 

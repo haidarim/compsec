@@ -1796,10 +1796,549 @@ för att skicka och ta emot crypterade meddelande:
 
 #..................................Database Security and Privacy........................
 
+*Intro: 
+	- Database = collection of data + set of rules that specify certain relationships among the data.
+	- Data is stored in one or more files
+	- The database file consists of records, which in turn consists of fields or elements.
+	- The logical structure of the database is called a schema.
+	- A subschema is that part of the database, to which a particular user may have access.
+	- Data can be organised in tables. All columns are given names, which are the attributes of the
+	database.
+	- A relation is a set of columns
 
+	- Database management system (DBMS) (databashanterare) is a program with
+	which the user interacts with the data base
+	
+	- Database administrator is a person that defines the rules that organise the data
+	and who should have access to which parts of the data. (expresses an access policy)
+	
+	- Several databases could be joined (“samköra”)
+	- Users interact with the database through commands to the DBMS. A command is
+	called a query.
+
+	- In a ”typical” company, the most sensitive information would be stored in the
+	database (attacker goal)
+
+	- Security requirements (in general):
+	 Confidentiality, Integrity, Availability (!)
+
+
+	* What makes database security a problm? 
+	- it is a complex SW, and difficult to setup (you need experince for it)
+	- sensitivity of data: public, sensitive, mix ...
+	- the sensitivity for the ”same type” of elements may differ
+	- differentiated sensitivity may be necessary (>2)
+	- inference (Sw. slutledning), i.e.
+	“unwanted” conclusions can be drawn
+	the sensitivity of a combination of data differs from the
+	sensitivity of the data elements data are semantically related
+
+	 * Database security requirements: 
+		• Physical database integrity - power failures etc
+		• Logical database integrity - the structure is
+		preserved
+	
+		• Element integrity - data must be accurate
+		• Auditability - possibility to track changes
+		• Access control
+		• User authentication
+		• Availability
+		• Confidentiality - protection of sensitive data
+
+	* Integrity of the database:
+		• Overall Goal: data must always be correct
+		• Mechanisms for the whole database:
+		• DBMS must regularly back up all files
+		• DBMS must maintain a transaction log
+
+	*Reliability and integrity mechanisms: 
+		record locking (write)
+		• we want atomic and serialisable operations:
+			• atomic: (cp “read-modify-write” for
+				instructions) means that operations can not be interrupted
+			
+				→ either OK and data correctly updated or
+				NOT OK and data unchanged
+			
+			• serialisable:
+				the result of a number of transactions that
+				are started at the same time must be the
+				same as if they were made in strict order
+
+
+
+
+	* Data sensitveness: Data can be sensitive in many ways sush as: 
+		- inherently sensitive (e.g. location of missiles)
+		- from a sensitive source (e.g. an informer's indentity may be compromised)
+		- declared sensitive 
+		- snsitive in relation to preiviously dosclosed information (e.g. longitude plus latitude)
+
+	* types of disclosures (avslöjande):
+		- exact data
+		- bounds, e.g. giving a lower and upper bound for the data item. 
+		- negative result, revealing that the item does not have a specific value can be
+		compromising, in particular that the value is not 0. 
+
+		- the existence of data may be sensitive, e.g. criminal record. 
+		- probable values: it might be possible to determine the probability that an element has a certain value. 
 
 		
+	* Inference principle: means deriving sensitive data from non-sensitive data
+	even by deriving sensitive data from non-sensitive, the attacker may be able to derive 
+	the sensitive data by using a lot of openly available meta data and combining them with non-sensitive data. 
+		
+	* Inference countermeasures: 
+		+ Inference detection at database design: Alter datbase structure or access controls. 
+		+ Inference detection at query time: By monitoring and altering, or rehjecting queries. 
+		+ needs some inference detection algorithm: a difficult problem, because we dont know the attackers method and not either the metadata he has. 
+
+
+	* Statistical DataBases (SDB): provides data of a statistical nature. e.g. counts, averages. 
 	
+		** There are two types of statistical db: 
+		1) pure statistical database, users have normal access. 
+		2) ordinary database with statistical access.  users have statistical acccess. 
+
+		** The access control objectives in statistical db is to allow statistical use without revealing individual enteries. 
+
+		** Statisticxal DB: 
+			# In statistical Database we use a characteristic formula C
+				- This (C) is a logical formula or a representation expression 
+				over the values of attributes. e.g. (Sex = Male) AND (Major = CS) OR (Major = EE)
+			
+			# We have a query set which is indicated as X(C), this is the set of record matching C
+
+			# So we can say that a statistical query is a query that produces a value calculated over a query set. 
+		
+		
+			# Size of the query set: used to make sure that enough records create the answer that
+			we wnat provide to the user. 
+
+		** Inference problem for statistical DB: 
+			- The characterstic function defines some subset of records rows within the DB 
+			, A query using C e.i. X(C) provides statistics on the selected subset.
+			if the subset is small enaugh (even a single record) the questioner may be 
+			may be able to infer characteristic of a single individual or a small group. 
+
+		** statistical inference attaks: 
+			- direct attack: finding sensetive information diretly with queries that yield only a few records. 
+			- indirect attacks: 
+				+ seeks to infer the final result based on a number of intermediate statistical results, such as: sum, 
+				count, median,...
+				
+				+ tracker attack: means finding sensitive information by using additional queries that each produce a small result. 
+			
+
+		** Basic controls and defenses for statistical innference attack: 	
+		- Query restriction (suppression): rejet query without response (data withheld)
+		- Perturbation (data or output) (concealing): providing an inexact answer to the query. 
+		- Query analysis i.e. track what the user kows: 
+			+ keeping track on previous queries (query history)
+			+ maintain a record for each user of earlier queries. 
+				- this method is exremly costly. 
+
+		
+
+		* Protecting aginst inferen in SDB's by query restrication: by looking at the size of the query, how many records are thouched? 
+		if too few are touched we make a restriction so we dont answer the query. 
+		e.g. if we run X(C) on the db
+		to avoid results with only a few enteries, we use k wich is an integer and tells the minumum acceptable enteries. 
+		it means we need at leat k enteries. so query must yield something larger or equal so we 
+		attacker can not guess values. 
+
+		k <= |X(C)|
+		where |X(C)| is the number of enteries coused by the query, nr of rows
+		e.g. if the query is :
+		Sum(attr) where name = "Adam" this should lead Denied! beacuse this mathes single entery. 
+
+		if N is the number of enteries all rows  for e.g. `sum(attr)` so the acceptable must be less than N-k
+
+		k <= |X(C)|<= N-k
+		in our example it should be: k<= |sum(attr) where name ="Adam"| <= sum(attr)
+
+
+		* Other defense mechanisms for SDB: 
+			- Combining results: present values in ranges, by e.g. combining rows or columns or rounding. 
+			- random sample: compute the result on a random sample of the database. 
+			- random data perturbation: add an error term e. 
+
+	
+
+
+	* Tracker attack: an organised way to defite query size restriction
+	This attack works in this way that deviding C to small queries
+	example: the query count(c) is forbidden due to query aize restriction. 
+		Then the attacker devide the C into C1 and C2 so that C = C1 AND C2
+		And T = C1 AND ~C2 (tracker)
+
+		then attacker can do count(C1), and then count(T)
+		by C1 - T the result will be C which was the primary goal for attacker. 
+		i.e. cont(C) = count(C1) - count(T)
+
+	* Other query restrictions: 
+		- query set overlap control: 
+			+ limit overlap between new and previous queries. 
+			+ has problems and overhead. 
+		- partitioning: 
+			+ records are clustred onto a number of mutually exclusive groups.
+			+ only allow queries on entire group. 
+		- query denial and information leakage: 
+			+ denials can leak information 
+			+ to counter must track queries from user 
+
+	
+	
+	* Perturbation: 
+		- add noise to statistics generated from data will result in differences in statistics
+		- data perturbation techniques such as: data swapping, generate statistics from underlying probability, distribution of attributes
+		- output perturbation techniques random-sample query (based on a subset) statistic adjustment of result (random or not)
+		- perturbation techniques may result in loss of accuracy in results
+
+
+	* Differential Privacy:
+	Differential privacy is a principle in data privacy that aims to protect individuals' privacy when their data is used for statistical analysis. The principle states that when a database is queried, the response should not reveal any information about a specific individual's data that would not be revealed if that person's data were not in the database.
+
+To achieve differential privacy, random disturbances or noise are introduced into the responses provided by the database to queries. This makes it difficult for an attacker to distinguish an individual's data from the aggregate result. The more noise that is added, the stronger the privacy protection, but it can also decrease the accuracy of the analysis results.
+
+Differential privacy is particularly useful when dealing with sensitive information, such as personal data, in statistical databases or analysis environments where there is a risk of individuals being identified through the combination of different data sources or analysis results. By applying differential privacy, organizations can conduct analyses on sensitive data with reduced risk of compromising the privacy of the individuals whose data is included in the analysis.
+
+Epsilon (ε) is a parameter in differential privacy used to measure and adjust the balance between privacy protection and accuracy in the analyses. The smaller the value of epsilon, the stronger the privacy protection, but the lower the accuracy of the analyses. Epsilon is an important measure of privacy protection in differential privacy and is used to assess how much of a trade-off is made between privacy and accuracy.
+
+	sv: 
+	Vi vill skapa en statistisk databas där vi samlar in information om olika personers status. Till exempel, om de är aktiva eller inte. Vi frågar alla personer om deras status, och sedan registrerar vi svaren. Men, vi vill också skydda människors integritet, så att de känner sig säkra när de deltar.
+
+För att göra detta använder vi något som kallas "differential privacy". Det innebär att även om någon har tillgång till databasen, ska de inte kunna lära sig något specifikt om en person, till exempel Annas status, om de inte redan vet allt annat om de andra.
+
+Så här fungerar det: vi har två versioner av databasen, där den enda skillnaden är att en person kan ha en annan status i den ena jämfört med den andra. Vi vill räkna ut hur många personer som är aktiva i varje version av databasen, men vi vill inte avslöja vilken version som är vilken.
+
+För att uppnå detta lägger vi till lite slumpmässigt brus till resultaten så att även om någon jämför resultaten från de olika versionerna av databasen, kommer de inte kunna avgöra vilken person som är aktiv och vilken som inte är det. Det här bruset är noggrant kontrollerat så att vi inte förlorar för mycket precision i våra resultat.
+
+En viktig sak att komma ihåg är att mängden brus vi lägger till beror på typen av fråga vi ställer och inte på själva datan i databasen eller hur mycket data vi har. Så ju större databas vi har, desto bättre blir resultatet. Men vi måste vara försiktiga med hur mycket brus vi lägger till, för att inte förlora för mycket precision i våra svar. Det här kallas för vårt "integritetsbudget" och det är viktigt att hantera det på ett klokt sätt. Även implementeringsdetaljer är viktiga för att säkerställa att differential privacy fungerar effektivt.
+
+
+
+
+
+
+
+#................................................Security Policies...............................
+
+	* Security Definitions:
+		• a security policy is a statement that partitions the states of a system into a set of authorized, or secure,
+		states and a set of unauthorized, or non-secure, states.
+
+		• a secure system is a system that starts in an authorized state and cannot enter an unauthorized state.
+
+		• a breach of security occurs when a system enters an unauthorized state.
+
+		• a security mechanism is an entity or procedure that enforces some part of the security policy.
+
+		• a security model is a model that represents a particular policy or set of policies.
+
+	* Military Security Policy:
+		• the Military Security Policy is based on protecting classified
+		information with respect to confidentiality.
+
+		• each piece of information is ranked at a particular sensitivity level:
+			– unclassified
+			– restricted
+			– confidential
+			– secret
+			– top secret
+		
+		• each piece of information may be associated with one (or more) projects, called compartments.
+
+		• The combination <rank; compartments> is called the classification or class of a piece of information.
+
+		• a person has a clearance to access information up to a certain level of sensitivity.
+		
+		• The clearance of a person has the same form as the classification of a piece of information: <rank; compartments>
+		
+		• the need-to-know rule (principle of least privilege) means that individuals shall only have access to those
+		data that they need in order to perform their jobs.
+
+		• the use of compartments helps to enforce the need-to-know rule.
+
+		• the user may not alter classifications, i.e. the policy requires Mandatory Access Control (MAC).
+
+		* In general: S has access to O if and only if (iff) 
+			rank(S)>= rank(O) AND need-to-know(S) ⊃ Compartments. 
+		(⊃ is symbolic for "is super set e.i. A ⊃ B means A is a super set of B")
+
+
+		* Bell-La Padula Security Model: 
+			• The BLP is a formalization of the Military Security
+			Model (described a mathematical notation).
+
+			• The BLP model is a formal description of the
+			allowable paths of information flow in a secure system.
+
+			• The BLP defines security requirements for systems that concurrently handles data at
+			different sensitivity levels.
+
+			• The BLP addresses confidentiality.
+
+			# definations: 
+			• System is described as a set of subjects S and objects O
+				– For each o∈O, there is a security class L(o) [classification]
+				– For each s∈S, there is a security class L(s) [clearance]
+			• there are two rules in this module: 
+				1) Simple Security Property: A Subject s may have `read` access to an object o
+				only if L(o)<=L(s) i.e. only if s dominates o.
+
+				2) star property (*-property): A subject s who has read access to an object o
+				may have write access to an object p only if L(o)≤L(p) e.i. p only if p dominates o.
+			
+			• we need also: 
+				- adding the need -to-know property with categories (projects).
+				Each subject s have a security clearance, ls, and the
+				need-to-know to access a number of categories, cs.
+				CMP(compare to military policy): Eve: <TS,{snowshoes, sweden}>
+				
+			Definition:
+			The security level (L,C) dominates the security level
+			(L’,C’) if and only if L’≤L and C’⊆C. 
+
+			• two important properties: 
+				•) No Read Up (NRU): a sunject should not be able to read documents that 
+				this subject has no right to read. this is implied by simple security property
+
+				•) No Write Down (NWD): imlied by star property that a should not be avle to 
+				write to object in lower sensivity level. the subject can only write to higher 
+				sensivity object. 
+			• Advantages:
+				– A subject may not downgrade information
+			• Problems:
+				– ”High” users can never talk to ”low” users
+				– Addresses only confidentiality
+				– Anyone can create an object with a higher classification
+				– ”Float-up” (i.e. down-grade needed)
+				– Does not address covert channels
+
+			• Principle of tranquility:
+				– Subjects and objects may not change their security level once they are instantiated
+			
+		* Biba Modul: is an miror that focus on integrity, it has same type of rules as Bell-La Padula. 
+		while Bell-La Padula has simple security property, the Biba ahas simple integrity property. 
+
+			• two rules in this model: 
+				1) simple integrity property: a subject s can modify (write access) object o only if
+				I(s)>=I(o)
+
+				2) in tegrity star property: if subject s has read access to object o 
+				with integrity level I(o), s can have write access to object p only if I(o)>=I(p)
+
+
+
+	* Commercial Security Policies: 
+		• commercial security policies generally have a broader scope than the military security policy.
+
+		• they may address issues such as industrial espionage,
+		conflicts of interest and rules for how activities must be
+		performed within a company. Also they extend the scope to
+		integrity and availability.
+
+		• they are normally less formal. There is no formalized notion
+		of clearance and consequently are the rules for allowing
+		access less regularized.
+
+		• the degrees of sensitivity are normally (but variants exists):
+			– public
+			– proprietary
+			– internal
+
+		* The Clark-Wilson security policy: is an Commercial Security policy (Well-formed transactions)
+			– proposes a policy for well-formed transactions, which gives
+			rules for the logistic process within the company, in terms
+			of which steps must be performed by which person with a
+			specified authority and in which order. Thus it addresses
+			the integrity aspect.
+
+		• the Clark-Wilson security policy is defined in terms of access triples:
+		<UserID; TP; {CDIi,CDIk, ....}>, which stands for
+		– User IDentification,
+		– Transformation Procedure and
+		– Constrained Data Items resp.
+
+		* The goal of Clark-Wilson is to maintain consistensy between internal data and external users's
+		expectation of these data. 
+
+		Example of Clarck-wilson model: 
+
+			company 
+		--------------------
+
+		    purchase ------------1 (order)----------------------------->   |  Supplier
+			|							   |
+			|							   |		
+		   2(ordercopy)							   |
+			|							   |
+			|							   |
+			∨							   |
+		   Receiving   <-----------------3 (goods delivery)--------------- |	
+			|							   |
+			|							   |		
+		   4(ordercopy delivery from signed)			           |
+			|							   |
+			|							   |
+			∨							   |
+		    Accounting  <---------------5(invoice)-------------------------|
+		    Department	-----------------6(payment)----------------------> |
+
+
+			Well-formed transactions
+				1. Order important
+				Receiving clerk does not
+				sign delivery order
+				without making order copy.
+
+				2. No payment unless
+				order form + delivery form
+				SIGNED, by auth. individuals
+				
+				Performing these steps, in order, and no less / no more,
+				+ auth individuals signs
+				➔ well-formed transactions
+
+
+		* Lee, Nash and Poland: Extenssion to Clarck-Wilson
+		Lee, Nash and Poland suggested an addition to the Clark-Wilson policy that involves
+		`separation of duty`. The aim is to prevent abuse that can arise when the same person
+		performs too many related actions in a company.
+
+
+
+		* The Chinese Wall Policy: is an other commercial policy [by Brewer and Nash]
+		enforces rules that prevents flow of information between companies that may have conflicting
+		interests, e.g. competing. 
+		
+		– the policy is defined in terms of three primitives:
+			• objects,
+			• company groups, and
+			• conflict classes.
+		– and the same employee may not access information from different companies in the same conflict class.
+		Thus it `addresses confidentiality`.		
+
+
+
+
+
+
+
+#.......................................................Security Management..............................
+
+	* Thinks to thin about: 
+		- need of a  security policy. 
+		- Structure e.g. firewalls
+		- components e.g. web server's plugins, API
+		- threat modelling: figuring out ways in which a system can be breached, e.g. atackers may by pass APIs and
+		,... 
+	
+	* Measurements-Requirements:
+		• Operations of measurement involve collecting and recording data from observation
+		• It means identifying the class of entities to which the measurement relates
+		• Measurements must be independent of the views and preferences of the measurerer
+		• Measurements must not be corrupted by an incidental, unrecorded circumstance, which might influence the outcome
+
+	* Measurements-Meaningfulness: Meaningfulness means that the scale measurement should be appropriate to
+	the type of property measured, such that once measurement has been performed – and data expressed on
+	some scale - sensible conclusions can be drawn from it
+		• Example 1:
+		“point A is twice as far as point B”
+		meaningless: distance is a ratio scale, but position is not
+		
+		• Example 2:
+		“point A is twice as far from point X as point B
+		meaningful: distance is a ratio scale
+
+
+
+	* Measurements -- Scales
+		- Nominal scale: denotes membership of a class for purposes such as labelling or color matching
+
+		- Ordinal scale: when measurement expresses comparative judgement
+
+		- Interval scale: when measuring ”distance” between pairs of items of a class according to the chosen attribute
+
+		- Ratio scale:  denotes the degree in relation to a standard, i.e. a ratio. It must preserve the origin.
+		
+		- Absolute scale: used for counting the number of elements in an entity set
+
+
+	• Security is not well-defined. There are
+	different interpretations in different areas
+		• CIA-model
+		• Absence of vulnerabilities
+		(rather than presence of “security”)
+		
+		• Set of “authorized” and “unauthorized”
+		states (policy)
+
+		• secure as long as only transitions
+		to authorized states
+		
+		• Is Adam’s password secure?
+
+			• Long enough? Complex enough?
+			Not related to personal details?
+
+			• → secure enough as long as
+			password guessers cannot crack it
+
+
+
+	* Methods for measuring security: 
+		• Evaluation/Certification (according to some standard)
+			• Common Criteria
+		• Risk Analysis
+			• Estimate probability of certain events, consequences and their costs
+		• Penetration tests
+			• Find vulnerabilities using red teams
+			• What does it mean if a team does not find anything?
+		• Vulnerability assessments
+			• Fuzzers, scanners, etc
+
+		• Effort-based
+			• How much effort is required to break system
+		• Weakest adversary
+			• Weakest adv to break system
+		• Mean-Time-To-Compromise
+			• Borrowed from reliability
+		• Cryptographic strength
+			• “computational efforts”
+		• Privacy-measures
+			• leaking personal information
+		• Fault trees, worst case
+		analysis, ...
+
+
+	* Common Vulnerability Scoring System (CVSS):  is an industry standard for assessing the severity of computer
+	system security vulnerabilities. 
+	
+		• The Common Vulnerability Scoring System (CVSS) provides a way to
+			1) capture the principal characteristics of a vulnerability and
+			2) produce a numerical score reflecting its severity.
+		• The numerical score can then be translated into a qualitative
+		representation (such as low, medium, high, and critical) to help
+		organizations properly assess and prioritize their vulnerability
+		management processes 
+	link: https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N/E:A
+
+
+
+	* Common Criteria: 
+	
+		
+
+
+
+
+
+
+
+
+
 
 
 
